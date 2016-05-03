@@ -1,0 +1,6 @@
+SMARCORE_M6SX BOARD
+M:	Matteo Manetti <matteo.manetti@engicam.com>
+S:	Maintained
+F:	board/engicam/smarcore_m6sx/
+F:	include/configs/smarcore_m6sx.h
+F:	configs/smarcore_m6sx_defconfig
