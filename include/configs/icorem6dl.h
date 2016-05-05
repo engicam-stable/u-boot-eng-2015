@@ -39,9 +39,9 @@
 #define CONFIG_CMDLINE_EDITING
 
 #if defined(CONFIG_MX6Q)
-#define CONFIG_DEFAULT_FDT_FILE	"imx6q-icore.dtb"
+#define CONFIG_DEFAULT_FDT_FILE	"icorem6q-starterkit.dtb"
 #elif defined(CONFIG_MX6DL)
-#define CONFIG_DEFAULT_FDT_FILE	"imx6dl-icore.dtb"
+#define CONFIG_DEFAULT_FDT_FILE	"icorem6dl-starterkit.dtb"
 #endif
 #define PHYS_SDRAM_SIZE		(256u * 1024 * 1024)
 

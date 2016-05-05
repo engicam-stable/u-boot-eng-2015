@@ -26,7 +26,7 @@
 		#define CONFIG_BOOTCMD		"bootcmd=run bootcmd_mmc\0"
 	#endif
 	
-	#define EXTRA_OPTION_SOLO	" cma=96MB gpumem=16MB "
+	#define EXTRA_OPTION_SOLO	" cma=96MB "
 	#define BOOTCMD_MMC_YOCTO	"run loadfdt; fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} uImage; bootm ${loadaddr} - ${fdt_addr}"
 	#define BOOTCMD_MMC_LTIB	"mmc read ${loadaddr} 0x800 0x2000;bootm"
 	
@@ -58,7 +58,7 @@
 		"nfsroot=/nfs_icore\0"			\
 		CONFIG_BOOTCMD				\
 		"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0"											\
-		"bootargs=setenv bootargs console=" CONFIG_CONSOLE_DEV ",115200" EXTRA_OPTION_SOLO "engi_board=${board} video=${video_type},${lcd_panel}\0"		\
+		"bootargs=setenv bootargs console=" CONFIG_CONSOLE_DEV ",115200" EXTRA_OPTION_SOLO "video=${video_type},${lcd_panel}\0"		\
 		"bootargsy_net=setenv bootargs ${bootargs} ${mtdparts_yocto} root=/dev/nfs ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" 				\
 		"bootargsl_net=setenv bootargs ${bootargs} root=/dev/nfs ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" 						\
 		"bootcmd_net="  YOCTO_BOOTCMD_NET "\0"															\
@@ -88,7 +88,6 @@
 		YOCTO_MODE " setenv bootcmd_ubi ${bootcmdy_ubi}\0"										\
 		"video_type=mxcfb0:dev=lcd\0"		\
 		"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" 	\
-		"board=SK.RES\0"			\
 		"fdt_addr=0x18000000\0" 																\
 
 	/* Customized parameter
@@ -101,7 +100,7 @@
 		"nfsroot=/nfs_icore\0"			\
 		CONFIG_BOOTCMD				\
 		"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0"											\
-		"bootargs=setenv bootargs console=" CONFIG_CONSOLE_DEV ",115200 cma=16M engi_board=${board} video=${video_type},${lcd_panel}\0"		\
+		"bootargs=setenv bootargs console=" CONFIG_CONSOLE_DEV ",115200 cma=16M video=${video_type},${lcd_panel}\0"		\
 		"bootargsy_net=setenv bootargs ${bootargs} ${mtdparts_yocto} root=/dev/nfs ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" 				\
 		"bootcmd_net="  YOCTO_BOOTCMD_NET "\0"															\
 		"bootcmdy_net=" YOCTO_BOOTCMD_NET "\0"															\
@@ -114,7 +113,6 @@
 		"bootcmd_ubi="  YOCTO_BOOTCMD_UBI 	"\0" 											\
 		"video_type=mxcfb0:dev=lcd\0"		\
 		"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" 	\
-		"board=SK.RES\0"			\
 		"fdt_addr=0x83000000\0" 																\
 
 	/* Customized parameter
@@ -135,7 +133,6 @@
 		LTIB_MODE  " setenv bootcmd_emmc ${bootcmdl_emmc}\0" 									\
 		YOCTO_MODE " setenv bootcmd_emmc ${bootcmdy_emmc}\0"									\
 		"video_type=mxcfb0:dev=ldb,LDB-XGA,if=RGB666 video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0"				\
-		"board=SK.Q7\0"				\
 		"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" 	\
 		"mmcpart=1\0"				\
 		"fdt_addr=0x18000000\0" 																\
