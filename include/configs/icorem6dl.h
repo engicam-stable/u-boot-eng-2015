@@ -40,7 +40,7 @@
 
 #if defined(CONFIG_MX6Q)
 #define CONFIG_DEFAULT_FDT_FILE	"icorem6q-starterkit.dtb"
-#elif defined(CONFIG_MX6DL)
+#elif defined(CONFIG_MX6DL) || defined(CONFIG_MXSOLO)
 #define CONFIG_DEFAULT_FDT_FILE	"icorem6dl-starterkit.dtb"
 #endif
 #define PHYS_SDRAM_SIZE		(256u * 1024 * 1024)

@@ -12,6 +12,10 @@
 #include <asm/arch/imx-regs.h>
 #include <asm/imx-common/gpio.h>
 
+#ifdef CONFIG_MX6SOLO
+#define CONFIG_MX6DL
+#endif
+
 #define CONFIG_MX6
 #define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_DISPLAY_BOARDINFO
@@ -41,7 +45,7 @@
 
 #if defined(CONFIG_MX6Q)
 #define CONFIG_DEFAULT_FDT_FILE	"icorem6q-starterkit.dtb"
-#elif defined(CONFIG_MX6DL)
+#elif defined(CONFIG_MX6DL) || defined(CONFIG_MXSOLO)
 #define CONFIG_DEFAULT_FDT_FILE	"icorem6dl-starterkit.dtb"
 #endif
 #define PHYS_SDRAM_SIZE		(CONFIG_DDR_MB * 1024 * 1024)
