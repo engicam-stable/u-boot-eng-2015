@@ -15,7 +15,6 @@
 #include <asm/imx-common/gpio.h>
 
 #define CONFIG_CONSOLE_DEV		"ttymxc0"
-#define CONFIG_DEFAULT_FDT_FILE		"imx6ul-gea.dtb"
 #include "common_parameter.h"
 
 #define CONFIG_MX6
@@ -157,7 +156,26 @@
 #endif
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
-	EXTRA_ENV_SETTINGS_ICOREUL \
+		"netdev=eth0\0" 			\
+		"ethprime=FEC0\0" 			\
+		"lcd_panel=Amp-WD\0" 			\
+		"nfsroot=/nfs_icore\0"			\
+		CONFIG_BOOTCMD				\
+		"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0"											\
+		"bootargs=setenv bootargs console=" CONFIG_CONSOLE_DEV ",115200 cma=16M video=${video_type},${lcd_panel}\0"		\
+		"bootargsy_net=setenv bootargs ${bootargs} ${mtdparts_yocto} root=/dev/nfs ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" 				\
+		"bootcmd_net="  YOCTO_BOOTCMD_NET "\0"															\
+		"bootcmdy_net=" YOCTO_BOOTCMD_NET "\0"															\
+		"mmcdev="CONFIG_STR_MMC_DEV"\0"																		\
+		"mmcpart=1\0"					\
+		"bootargsy_ubi=setenv bootargs ${bootargs} ${mtdparts_yocto} ubi.mtd=3 root=ubi0:rootfs rootfstype=ubifs\0"			\
+		"bootargsy_mmc=setenv bootargs ${bootargs} ${mtdparts_yocto} root="CONFIG_MMCROOT" rootwait rw\0" 				\
+		"mtdparts_yocto=mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),-(rootfs)\0"							\
+		"bootcmd_mmc="  YOCTO_BOOTCMD_MMC_ICORE "\0"											\
+		"bootcmd_ubi="  YOCTO_BOOTCMD_UBI 	"\0" 											\
+		"video_type=mxcfb0:dev=lcd\0"		\
+		"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" 	\
+		"fdt_addr=0x83000000\0" \
 	"fdt_high=0xffffffff\0"
 
 
@@ -260,9 +278,19 @@
 #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
 #endif
 
-#define CONFIG_SYS_MMC_ENV_DEV		0   /* USDHC2 */
+#ifndef CONFIG_SYS_MMC_ENV_DEV
+	#define CONFIG_SYS_MMC_ENV_DEV		0   /* USDHC1 */
+#endif
+#if CONFIG_SYS_MMC_ENV_DEV == 1	/* boot from eMMC */
+	#define CONFIG_STR_MMC_DEV "1"
+	#define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
+	#define CONFIG_DEFAULT_FDT_FILE		"imx6ul-gea-emmc.dtb"
+#else
+	#define CONFIG_STR_MMC_DEV "0"
+	#define CONFIG_MMCROOT			"/dev/mmcblk0p2"  /* USDHC2 */
+	#define CONFIG_DEFAULT_FDT_FILE		"imx6ul-gea.dtb"
+#endif
 #define CONFIG_SYS_MMC_ENV_PART		0	/* user area */
-#define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
 
 #define CONFIG_OF_LIBFDT
 #define CONFIG_CMD_BOOTZ
