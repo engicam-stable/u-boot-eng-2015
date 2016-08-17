@@ -13,6 +13,7 @@
 #include <asm/imx-common/gpio.h>
 
 #define CONFIG_MX6
+#define MAX_SDRAM_SIZE		0x80000000  /* Maximum 2GB for i.Core M6S/DL/D/Q */
 #define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_DISPLAY_BOARDINFO
 
