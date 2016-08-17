@@ -18,6 +18,7 @@
 #include "common_parameter.h"
 
 #define CONFIG_MX6
+#define MAX_SDRAM_SIZE		0x20000000  /* Maximum 512MB for GEA M6UL */
 #define CONFIG_ROM_UNIFIED_SECTIONS
 #define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_CPUINFO
@@ -128,12 +129,6 @@
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_MXC
 #define CONFIG_SYS_I2C_SPEED		100000
-#endif
-
-#ifdef CONFIG_SDRAM_SIZE512
-	#define PHYS_SDRAM_SIZE			SZ_512M
-#else
-	#define PHYS_SDRAM_SIZE			SZ_128M
 #endif
 
 #define CONFIG_VIDEO
