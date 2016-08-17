@@ -22,6 +22,7 @@
 #include "common_parameter.h"
 
 #define CONFIG_MX6
+#define MAX_SDRAM_SIZE		0x20000000  /* Maximum 512MB for i.Core M6SX */
 #define CONFIG_ROM_UNIFIED_SECTIONS
 #define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_CPUINFO
@@ -239,9 +240,12 @@
 /* MP: #define CONFIG_ENV_IS_IN_SPI_FLASH */
 #else
 /* define CONFIG_SYS_USE_QSPI */  /* Enable the QSPI flash at default */
-#define CONFIG_SYS_USE_NAND
-/* #define CONFIG_ENV_IS_IN_MMC */
-#define CONFIG_ENV_IS_IN_NAND
+#ifndef CONFIG_ENV_IS_IN_MMC 
+	#define CONFIG_ENV_IS_IN_NAND	
+#endif
+	#define CONFIG_SYS_USE_NAND
+	/* #define CONFIG_ENV_IS_IN_MMC */
+	
 #endif
 
 
