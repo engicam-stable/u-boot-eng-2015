@@ -21,6 +21,7 @@
 #include "common_parameter.h"
 
 #define CONFIG_MX6
+#define MAX_SDRAM_SIZE		0x80000000  /* Maximum 2GB for SmarCore M6SX */
 #define CONFIG_ROM_UNIFIED_SECTIONS
 #define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_CPUINFO
