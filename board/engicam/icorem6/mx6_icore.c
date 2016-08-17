@@ -139,7 +139,7 @@ struct i2c_pads_info i2c_pad_info2 = {
 
 int dram_init(void)
 {
-	gd->ram_size = ((ulong)CONFIG_DDR_MB * 1024 * 1024);
+	gd->ram_size = (get_ram_size((long *)PHYS_SDRAM, MAX_SDRAM_SIZE));
 
 	return 0;
 }
@@ -827,7 +827,7 @@ int board_init(void)
 	
 	/* For kernel 3.0.35 */
 	gd->bd->bi_dram[0].start = PHYS_SDRAM;
-	gd->bd->bi_dram[0].size = ((ulong)CONFIG_DDR_MB * 1024 * 1024);
+	gd->bd->bi_dram[0].size = gd->ram_size;
 	gd->bd->bi_arch_number = MACH_TYPE_MX6Q_SABRELITE;
 
 	setup_iomux_enet();
