@@ -164,13 +164,14 @@
 		"mmcdev="CONFIG_STR_MMC_DEV"\0"																		\
 		"mmcpart=1\0"					\
 		"bootargsy_ubi=setenv bootargs ${bootargs} ${mtdparts_yocto} ubi.mtd=3 root=ubi0:rootfs rootfstype=ubifs\0"			\
-		"bootargsy_mmc=setenv bootargs ${bootargs} ${mtdparts_yocto} root="CONFIG_MMCROOT" rootwait rw\0" 				\
+		"bootargsy_mmc=setenv bootargs ${bootargs} ${mtdparts_yocto} root=${rootfs} rootwait rw\0" 				\
 		"mtdparts_yocto=mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),-(rootfs)\0"							\
 		"bootcmd_mmc="  YOCTO_BOOTCMD_MMC_ICORE "\0"											\
 		"bootcmd_ubi="  YOCTO_BOOTCMD_UBI 	"\0" 											\
 		"video_type=mxcfb0:dev=lcd\0"		\
 		"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" 	\
 		"fdt_addr=0x83000000\0" \
+		"rootfs=" CONFIG_MMCROOT "\0" \
 	"fdt_high=0xffffffff\0"
 
 
