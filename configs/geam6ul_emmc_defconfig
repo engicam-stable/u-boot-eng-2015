@@ -1,7 +1,7 @@
 # Config for GEA M6UL
 # boot from eMMC version
 #
-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/engicam/geam6ul/imximage.cfg,MX6UL,SYS_MMC_ENV_DEV=1"
+CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/engicam/geam6ul/imximage.cfg,MX6UL,SYS_MMC_ENV_DEV=1,SYS_BOOT_EMMC"
 CONFIG_ARM=y
 CONFIG_TARGET_GEAM6UL=y
 CONFIG_DM=y

@@ -150,6 +150,20 @@
 #define CONFIG_MFG_NAND_PARTITION ""
 #endif
 
+#define BOOTCMD_FROM_EMMC \
+	"bootcmd_emmc=setenv mmcdev 1; run bootargs; run bootargsy_mmc_emmc; run loadfdt; run loaduImage; bootm ${loadaddr} - ${fdt_addr}\0"
+#define BOOTCMD_FROM_NAND \
+	"bootargsy_ubi=setenv bootargs ${bootargs} ${mtdparts_yocto} ubi.mtd=3 root=ubi0:rootfs rootfstype=ubifs\0"	\
+	"bootcmd_ubi="  YOCTO_BOOTCMD_UBI 	"\0" 	
+
+#ifdef CONFIG_SYS_BOOT_EMMC
+	#undef BOOTCMD_FROM_NAND
+	#define BOOTCMD_FROM_NAND ""	
+#else /* For NAND & SDCARD */ 
+	#undef BOOTCMD_FROM_EMMC
+	#define BOOTCMD_FROM_EMMC ""
+#endif
+
 #define CONFIG_EXTRA_ENV_SETTINGS \
 		"netdev=eth0\0" 			\
 		"ethprime=FEC0\0" 			\
@@ -159,19 +173,17 @@
 		"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0"											\
 		"bootargs=setenv bootargs console=" CONFIG_CONSOLE_DEV ",115200 cma=16M video=${video_type},${lcd_panel}\0"		\
 		"bootargsy_net=setenv bootargs ${bootargs} ${mtdparts_yocto} root=/dev/nfs ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" 				\
-		"bootcmd_net="  YOCTO_BOOTCMD_NET "\0"															\
-		"bootcmdy_net=" YOCTO_BOOTCMD_NET "\0"															\
-		"mmcdev="CONFIG_STR_MMC_DEV"\0"																		\
+		"bootcmd_net="  YOCTO_BOOTCMD_NET "\0"			\
 		"mmcpart=1\0"					\
-		"bootargsy_ubi=setenv bootargs ${bootargs} ${mtdparts_yocto} ubi.mtd=3 root=ubi0:rootfs rootfstype=ubifs\0"			\
-		"bootargsy_mmc=setenv bootargs ${bootargs} ${mtdparts_yocto} root=${rootfs} rootwait rw\0" 				\
-		"mtdparts_yocto=mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),-(rootfs)\0"							\
-		"bootcmd_mmc="  YOCTO_BOOTCMD_MMC_ICORE "\0"											\
-		"bootcmd_ubi="  YOCTO_BOOTCMD_UBI 	"\0" 											\
+		"bootcmd_mmc=setenv mmcdev 0; run bootargs; run bootargsy_mmc_emmc; run loadfdt; run loaduImage; bootm ${loadaddr} - ${fdt_addr}\0"	\
+		"bootargsy_mmc_emmc=setenv bootargs ${bootargs} root=/dev/mmcblk${mmcdev}p2 rootwait rw\0" \
+		"loaduImage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} uImage;\0"	\
+		"mtdparts_yocto=mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),-(rootfs)\0"		\
 		"video_type=mxcfb0:dev=lcd\0"		\
 		"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" 	\
 		"fdt_addr=0x83000000\0" \
-		"rootfs=" CONFIG_MMCROOT "\0" \
+		BOOTCMD_FROM_NAND \
+		BOOTCMD_FROM_EMMC \
 	"fdt_high=0xffffffff\0"
 
 
