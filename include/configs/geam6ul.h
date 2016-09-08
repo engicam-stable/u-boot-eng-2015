@@ -151,7 +151,7 @@
 #endif
 
 #define BOOTCMD_FROM_EMMC \
-	"bootcmd_emmc=setenv mmcdev 1; run bootargs; run bootargsy_mmc_emmc; run loadfdt; run loaduImage; bootm ${loadaddr} - ${fdt_addr}\0"
+	"bootcmd_emmc=setenv mmcdev 1; run bootargs; run bootargsy_emmc; run loadfdt; run loaduImage; bootm ${loadaddr} - ${fdt_addr}\0"
 #define BOOTCMD_FROM_NAND \
 	"bootargsy_ubi=setenv bootargs ${bootargs} ${mtdparts_yocto} ubi.mtd=3 root=ubi0:rootfs rootfstype=ubifs\0"	\
 	"bootcmd_ubi="  YOCTO_BOOTCMD_UBI 	"\0" 	
@@ -175,8 +175,9 @@
 		"bootargsy_net=setenv bootargs ${bootargs} ${mtdparts_yocto} root=/dev/nfs ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" 				\
 		"bootcmd_net="  YOCTO_BOOTCMD_NET "\0"			\
 		"mmcpart=1\0"					\
-		"bootcmd_mmc=setenv mmcdev 0; run bootargs; run bootargsy_mmc_emmc; run loadfdt; run loaduImage; bootm ${loadaddr} - ${fdt_addr}\0"	\
-		"bootargsy_mmc_emmc=setenv bootargs ${bootargs} root=/dev/mmcblk${mmcdev}p2 rootwait rw\0" \
+		"bootcmd_mmc=setenv mmcdev 0; run bootargs; run bootargsy_mmc; run loadfdt; run loaduImage; bootm ${loadaddr} - ${fdt_addr}\0"	\
+		"bootargsy_emmc=setenv bootargs ${bootargs} root=/dev/mmcblk${mmcdev}p2 rootwait rw\0" \
+		"bootargsy_mmc=setenv bootargs ${bootargs} ${mtdparts_yocto} root=/dev/mmcblk${mmcdev}p2 rootwait rw\0" \
 		"loaduImage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} uImage;\0"	\
 		"mtdparts_yocto=mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),-(rootfs)\0"		\
 		"video_type=mxcfb0:dev=lcd\0"		\
