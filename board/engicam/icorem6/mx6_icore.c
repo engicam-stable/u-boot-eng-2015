@@ -183,6 +183,9 @@ iomux_v3_cfg_t const usdhc1_pads[] = {
 
 };
 
+iomux_v3_cfg_t const eim_ad7_pads[] = {
+	MX6_PAD_EIM_DA7__GPIO3_IO07 | MUX_PAD_CTRL(NO_PAD_CTRL)
+};
 
 #ifdef CONFIG_I2C_MXC
 static int setup_pmic_voltages(void)
@@ -266,6 +269,7 @@ static void setup_iomux_uart(void)
 
 #define USDHC1_CD_GPIO	IMX_GPIO_NR(1, 1)
 #define USDHC3_CD_GPIO	IMX_GPIO_NR(6, 15)
+#define EIM_DA7_GPIO	IMX_GPIO_NR(3, 7)
 
 struct fsl_esdhc_cfg usdhc_cfg[2] = {
 	{USDHC1_BASE_ADDR, 0, 4},
@@ -334,6 +338,10 @@ int board_mmc_init(bd_t *bis)
 			printf("Warning: failed to initialize mmc dev %d\n", i);
 	}
 
+	/* EIM_DA7 input forced */
+	imx_iomux_v3_setup_multiple_pads(eim_ad7_pads, ARRAY_SIZE(eim_ad7_pads));
+	gpio_direction_input(EIM_DA7_GPIO);
+	
 	return 0;
 }
 
