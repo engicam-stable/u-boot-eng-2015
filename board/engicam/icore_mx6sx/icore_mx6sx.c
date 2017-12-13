@@ -219,10 +219,8 @@ static iomux_v3_cfg_t const phy_control_pads[] = {
 
 static void setup_iomux_fec(int fec_id)
 {
-	if (0 == fec_id)
-		imx_iomux_v3_setup_multiple_pads(fec1_pads, ARRAY_SIZE(fec1_pads));
-	else
-		imx_iomux_v3_setup_multiple_pads(fec2_pads, ARRAY_SIZE(fec2_pads));
+	imx_iomux_v3_setup_multiple_pads(fec1_pads, ARRAY_SIZE(fec1_pads));
+	imx_iomux_v3_setup_multiple_pads(fec2_pads, ARRAY_SIZE(fec2_pads));
 }
 #endif
 
@@ -504,8 +502,7 @@ static int setup_fec(int fec_id)
 		/* Use 125M anatop loopback REF_CLK1 for ENET2, clear gpr1[14], gpr1[18]*/
 		clrsetbits_le32(&iomuxc_gpr_regs->gpr[1], IOMUX_GPR1_FEC2_MASK, 0);
 
-	imx_iomux_v3_setup_multiple_pads(phy_control_pads,
-		ARRAY_SIZE(phy_control_pads));
+	imx_iomux_v3_setup_multiple_pads(phy_control_pads, ARRAY_SIZE(phy_control_pads));
 
 
 	/* Reset PHY1 */
@@ -519,15 +516,9 @@ static int setup_fec(int fec_id)
 	udelay(500);
 	gpio_set_value(IMX_GPIO_NR(6, 20), 1);
 
-	reg = readl(&anatop->pll_enet);
-	reg |= BM_ANADIG_PLL_ENET_REF_25M_ENABLE;
-	writel(reg, &anatop->pll_enet);
+	ret = enable_fec_anatop_clock(1, ENET_25MHZ);
+	ret |= enable_fec_anatop_clock(0, ENET_25MHZ);
 
-#ifdef CONFIG_FEC_CLOCK_25M_REF
-	ret = enable_fec_anatop_clock(fec_id, ENET_25MHZ);
-#else
-	ret = enable_fec_anatop_clock(fec_id, ENET_125MHz);
-#endif
 	if (ret)
 		return ret;
 
