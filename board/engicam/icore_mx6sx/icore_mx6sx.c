@@ -495,6 +495,9 @@ static int setup_fec(int fec_id)
 		= (struct iomuxc_gpr_base_regs *) IOMUXC_GPR_BASE_ADDR;
 	int ret, reg;
 
+	ret = enable_fec_anatop_clock(1, ENET_25MHZ);
+	ret |= enable_fec_anatop_clock(0, ENET_25MHZ);
+
 	if (0 == fec_id)
 		/* Use 125M anatop loopback REF_CLK1 for ENET1, clear gpr1[13], gpr1[17]*/
 		clrsetbits_le32(&iomuxc_gpr_regs->gpr[1], IOMUX_GPR1_FEC1_MASK, 0);
@@ -504,6 +507,7 @@ static int setup_fec(int fec_id)
 
 	imx_iomux_v3_setup_multiple_pads(phy_control_pads, ARRAY_SIZE(phy_control_pads));
 
+	udelay(5000);
 
 	/* Reset PHY1 */
 	gpio_direction_output(IMX_GPIO_NR(6, 19) , 0);
@@ -515,9 +519,6 @@ static int setup_fec(int fec_id)
 	gpio_direction_output(IMX_GPIO_NR(6, 20) , 0);
 	udelay(500);
 	gpio_set_value(IMX_GPIO_NR(6, 20), 1);
-
-	ret = enable_fec_anatop_clock(1, ENET_25MHZ);
-	ret |= enable_fec_anatop_clock(0, ENET_25MHZ);
 
 	if (ret)
 		return ret;
