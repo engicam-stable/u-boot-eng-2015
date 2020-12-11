@@ -55,7 +55,7 @@ DECLARE_GLOBAL_DATA_PTR;
 	PAD_CTL_DSE_80ohm   | PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
 
 #define ENET_PAD_CTRL  (PAD_CTL_PUS_100K_UP | PAD_CTL_PUE |     \
-	PAD_CTL_SPEED_HIGH   |                                   \
+	PAD_CTL_SPEED_LOW   |                                   \
 	PAD_CTL_DSE_48ohm   | PAD_CTL_SRE_FAST)
 
 #define ENET_CLK_PAD_CTRL  (PAD_CTL_SPEED_LOW | \
@@ -507,7 +507,7 @@ static int setup_fec(int fec_id)
 
 	imx_iomux_v3_setup_multiple_pads(phy_control_pads, ARRAY_SIZE(phy_control_pads));
 
-	udelay(5000);
+	udelay(75000);
 
 	/* Reset PHY1 */
 	gpio_direction_output(IMX_GPIO_NR(6, 19) , 0);
